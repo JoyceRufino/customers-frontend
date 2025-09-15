@@ -1,0 +1,72 @@
+## Plano de MVP para o Sistema de Gestão de Clientes
+
+Este documento detalha o plano de desenvolvimento para o Produto Mínimo Viável (MVP) do sistema, focando em uma entrega ágil e completa em uma única sprint. O objetivo é demonstrar as habilidades essenciais em React, TypeScript, Docker e Vercel.
+
+### Sprint Única: Entrega do MVP Completo
+
+---
+
+#### **Tarefa 1: Estrutura Base e Autenticação [TD-01]**
+**Descrição:** Configurar o ambiente do projeto, estabelecer a estrutura de arquivos e criar as páginas principais da aplicação.
+
+* **Subtarefa 1.1:** Configurar ambiente. [TDF-001]
+    * Criar um novo projeto **React + Vite** com **TypeScript**.
+    * Instalar dependências (ex: `react-router-dom`).
+    * Estruturar pastas para componentes, layout, páginas e serviços da API (`src/components`, `src/pages`, etc.).
+
+* **Subtarefa 1.2:** Criar páginas. [TDF-002]
+    * Desenvolver os arquivos das páginas de **Login**, **Clientes** e **Clientes Selecionados**.
+    * Definir as rotas para navegação entre as páginas.
+
+* **Subtarefa 1.3:** Inicializar o repositório. [TDF-003]
+    * Configurar o **Git** e realizar o commit inicial.
+
+---
+
+#### **Tarefa 2: Desenvolvimento da Página de Login [TD-02]**
+**Descrição:** Implementar a interface e a lógica de autenticação da página de login, simulando a integração com a API.
+
+* **Subtarefa 2.1:** Implementar a interface. [TDF-004]
+    * Criar o componente **LoginPage**.
+    * Desenvolver o **HTML** e **CSS** para o campo de nome e o botão de "entrar".
+
+* **Subtarefa 2.2:** Lógica de autenticação. [TDF-005]
+    * Criar uma função que simule a chamada à **API de login**.
+    * Gerenciar o estado de autenticação (via **Context API** ou Local Storage).
+    * Redirecionar o usuário para a página de clientes após o "login" bem-sucedido.
+
+---
+
+#### **Tarefa 3: Gerenciamento de Clientes (CRUD) [TD-03]**
+**Descrição:** Desenvolver a página principal de clientes, com todas as funcionalidades de **CRUD** e a capacidade de selecionar clientes.
+
+* **Subtarefa 3.1:** Implementar a listagem. [TDF-006]
+    * Criar o componente **ClientsPage**.
+    * Fazer a chamada `GET /clients` para a API.
+    * Exibir a lista de clientes em uma tabela ou lista.
+
+* **Subtarefa 3.2:** Desenvolver o CRUD. [TDF-007]
+    * **Adicionar:** Implementar a função para enviar dados (`POST /clients`) para a API.
+    * **Editar:** Configurar a funcionalidade para atualizar dados (`PUT /clients/:id`).
+    * **Excluir:** Criar a função para deletar clientes (`DELETE /clients/:id`).
+
+* **Subtarefa 3.3:** Selecionar clientes. [TDF-008]
+    * Adicionar um mecanismo de seleção (ex: checkbox) em cada cliente.
+    * Gerenciar o estado dos clientes selecionados para uso posterior.
+
+---
+
+#### **Tarefa 4: Visualização e Deploy Final [TD-04]**
+**Descrição:** Criar a página para exibir os clientes selecionados, garantir a responsividade da aplicação e prepará-la para o deploy.
+
+* **Subtarefa 4.1:** Criar a página de seleção. [TDF-009]
+    * Desenvolver o componente **SelectedClientsPage**.
+    * Acessar e exibir os dados dos clientes que foram selecionados.
+
+* **Subtarefa 4.2:** Responsividade e otimização. [TDF-010]
+    * Ajustar o **CSS** para garantir que a interface seja responsiva em diferentes telas.
+    * Revisar o código e a estrutura para garantir a qualidade e a componentização.
+
+* **Subtarefa 4.3:** Preparar para o deploy. [TDF-011]
+    * Criar um **Dockerfile** para containerizar a aplicação.
+    * Atualizar o `README.md` com instruções detalhadas sobre como rodar e fazer o deploy na **Vercel**.
