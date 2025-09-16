@@ -4,7 +4,6 @@ export type Client = {
   companyValuation: number;
 };
 
-// Interface do usuário (pode ser diferente do create)
 export type User = {
   id: number;
   name: string;
@@ -12,7 +11,6 @@ export type User = {
   companyValuation: number;
 };
 
-// Tipagem para um único cliente
 export type ClientID = {
   id: number;
   name: string;
@@ -22,7 +20,6 @@ export type ClientID = {
   updatedAt: string;
 };
 
-// Tipagem para a resposta completa da API
 export interface GetUsersResponse {
   clients: ClientID[];
   totalPages: number;

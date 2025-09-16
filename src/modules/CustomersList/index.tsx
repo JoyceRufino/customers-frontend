@@ -1,4 +1,3 @@
-// src/modules/CustomersList/index.tsx
 import { useState } from "react";
 import { Button } from "../../components/ui/Button";
 import { CardCustomer } from "../../components/CardCustomer";
@@ -11,20 +10,21 @@ import { useCustomers } from "../../context/CustomersContext";
 import { useSelectedCustomers } from "../../context/SelectedCustomersContext";
 import { useEditCustomer } from "../../hooks/useEditCustomer";
 import { useDeleteCustomer } from "../../hooks/useDeleteCustomer";
+import { Loader } from "../../components/ui/Loader";
 
 const CustomersList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(4);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const { customers, isLoading, isError } = useCustomers({ page, limit });
   const { isSelected, toggleSelect } = useSelectedCustomers();
-
-  console.log("customers: ", customers);
-
   const { control, isModalOpen, onSubmit, openModal, closeModal } =
     useCreateCustomer();
+  const { deleteCustomer } = useDeleteCustomer();
 
-  const [editingId, setEditingId] = useState<number | null>(null);
   const {
     control: editControl,
     isModalOpen: isEditOpen,
@@ -33,10 +33,6 @@ const CustomersList = () => {
     closeModal: closeEditModal,
   } = useEditCustomer({ userId: editingId });
 
-  const { deleteCustomer } = useDeleteCustomer();
-
-  const [deleteId, setDeleteId] = useState<number | null>(null);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const openDeleteModal = (id: number) => {
     setDeleteId(id);
     setIsDeleteOpen(true);
@@ -46,8 +42,6 @@ const CustomersList = () => {
     setDeleteId(null);
   };
 
-  // const totalClients = customers?.clients.length || 0;
-
   const handleSelect = (id: number) => {
     const client = customers?.clients.find((c) => c.id === id);
     if (!client) return;
@@ -55,7 +49,11 @@ const CustomersList = () => {
   };
 
   if (isLoading) {
-    return <p className="p-4">Carregando clientes...</p>;
+    return (
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <Loader /> <p>Carregando...</p>
+      </div>
+    );
   }
 
   if (isError) {

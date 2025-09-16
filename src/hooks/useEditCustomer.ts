@@ -11,7 +11,8 @@ type UseEditCustomerParams = {
 
 export const useEditCustomer = ({ userId }: UseEditCustomerParams) => {
   const queryClient = useQueryClient();
-  const { control, handleSubmit, reset, setError, setValue } = useForm<Client>();
+  const { control, handleSubmit, reset, setError, setValue } =
+    useForm<Client>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -43,16 +44,27 @@ export const useEditCustomer = ({ userId }: UseEditCustomerParams) => {
     onError: (error: unknown) => {
       toast.error("Ocorreu um erro ao atualizar o cliente.");
       try {
-        const err = error as { response?: { data?: { message?: string[] | string } } };
+        const err = error as {
+          response?: { data?: { message?: string[] | string } };
+        };
         const messages = err.response?.data?.message;
-        const arr = Array.isArray(messages) ? messages : messages ? [messages] : [];
+        const arr = Array.isArray(messages)
+          ? messages
+          : messages
+          ? [messages]
+          : [];
         arr.forEach((msg) => {
           const lower = String(msg).toLowerCase();
-          if (lower.includes("salary")) setError("salary", { type: "server", message: msg });
-          if (lower.includes("companyvaluation")) setError("companyValuation", { type: "server", message: msg });
-          if (lower.includes("name")) setError("name", { type: "server", message: msg });
+          if (lower.includes("salary"))
+            setError("salary", { type: "server", message: msg });
+          if (lower.includes("companyvaluation"))
+            setError("companyValuation", { type: "server", message: msg });
+          if (lower.includes("name"))
+            setError("name", { type: "server", message: msg });
         });
-      } catch {}
+      } catch {
+        console.log("erro");
+      }
     },
   });
 
@@ -83,5 +95,3 @@ export const useEditCustomer = ({ userId }: UseEditCustomerParams) => {
     isLoading: mutation.isPending,
   };
 };
-
-
