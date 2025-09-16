@@ -14,7 +14,9 @@ const SelectedCustomers = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Clientes Selecionados:</h1>
+        <h1 className="text-xl font-bold">
+          Clientes Selecionados: {selected?.length}
+        </h1>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {selected.map((user) => (
