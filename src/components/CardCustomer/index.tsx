@@ -1,5 +1,4 @@
-import React from "react";
-import { Pencil, Plus, Trash, Check } from "lucide-react";
+import { Check, Pencil, Plus, Trash } from "lucide-react";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 interface CardCustomerProps {
@@ -11,6 +10,7 @@ interface CardCustomerProps {
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
   selected?: boolean;
+  showActions?: boolean; // 👈 nova prop
 }
 
 export const CardCustomer: React.FC<CardCustomerProps> = ({
@@ -22,6 +22,7 @@ export const CardCustomer: React.FC<CardCustomerProps> = ({
   onEdit,
   onDelete,
   selected = false,
+  showActions = true,
 }) => {
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-md transition flex flex-col justify-between bg-white">
@@ -43,20 +44,25 @@ export const CardCustomer: React.FC<CardCustomerProps> = ({
         >
           {selected ? <Check size={20} /> : <Plus size={20} />}
         </button>
-        <button
-          onClick={() => onEdit?.(id)}
-          className="text-blue-500 hover:text-blue-700"
-          title="Editar"
-        >
-          <Pencil size={20} />
-        </button>
-        <button
-          onClick={() => onDelete?.(id)}
-          className="text-red-500 hover:text-red-700"
-          title="Excluir"
-        >
-          <Trash size={20} />
-        </button>
+
+        {showActions && (
+          <>
+            <button
+              onClick={() => onEdit?.(id)}
+              className="text-blue-500 hover:text-blue-700"
+              title="Editar"
+            >
+              <Pencil size={20} />
+            </button>
+            <button
+              onClick={() => onDelete?.(id)}
+              className="text-red-500 hover:text-red-700"
+              title="Excluir"
+            >
+              <Trash size={20} />
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

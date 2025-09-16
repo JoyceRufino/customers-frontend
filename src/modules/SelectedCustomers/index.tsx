@@ -26,11 +26,11 @@ const SelectedCustomers = () => {
             company={user.companyValuation}
             selected={isSelected(user.id)}
             onSelect={() => toggleSelect(user)}
+            showActions={false}
           />
         ))}
       </div>
       <div className="w-full mt-6">
-        {" "}
         <Button onClick={clear} className="w-full" variant="outline">
           Limpar seleção
         </Button>
