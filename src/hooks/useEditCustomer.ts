@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editUser, getUserById } from "../api/services/customers";
+import { editCustomer, getCustomerById } from "../api/services/customers";
 import type { Client, ClientID } from "../api/types/customers";
 import toast from "react-hot-toast";
 
@@ -19,7 +19,7 @@ export const useEditCustomer = ({ userId }: UseEditCustomerParams) => {
     const load = async () => {
       if (!userId || !isModalOpen) return;
       try {
-        const user: ClientID = await getUserById(String(userId));
+        const user: ClientID = await getCustomerById(String(userId));
         setValue("name", user.name);
         setValue("salary", Number(user.salary));
         setValue("companyValuation", Number(user.companyValuation));
@@ -33,7 +33,7 @@ export const useEditCustomer = ({ userId }: UseEditCustomerParams) => {
   const mutation = useMutation({
     mutationFn: async (payload: Client) => {
       if (!userId) throw new Error("Missing userId");
-      return await editUser(String(userId), payload as unknown as ClientID);
+      return await editCustomer(String(userId), payload as unknown as ClientID);
     },
     onSuccess: () => {
       toast.success("Cliente atualizado com sucesso!");

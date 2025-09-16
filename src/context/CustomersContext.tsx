@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "../api/services/customers";
+import { getCustomers } from "../api/services/customers";
 import type { GetUsersResponse } from "../api/types/customers";
 
 export const CustomersProvider = ({ children }: { children: ReactNode }) => {
@@ -17,7 +17,7 @@ export const useCustomers = ({
 }) => {
   const { data, isLoading, isError, refetch } = useQuery<GetUsersResponse>({
     queryKey: ["customers", page, limit],
-    queryFn: () => getUsers(page, limit),
+    queryFn: () => getCustomers(page, limit),
     placeholderData: (prev) => prev,
   });
 

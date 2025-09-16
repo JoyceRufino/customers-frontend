@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteUser } from "../api/services/customers";
+import { deleteCustomer } from "../api/services/customers";
 import toast from "react-hot-toast";
 
 export const useDeleteCustomer = () => {
@@ -7,7 +7,7 @@ export const useDeleteCustomer = () => {
 
   const mutation = useMutation({
     mutationFn: async (id: number) => {
-      await deleteUser(String(id));
+      await deleteCustomer(String(id));
     },
     onSuccess: () => {
       toast.success("Cliente excluído com sucesso!");
@@ -23,5 +23,3 @@ export const useDeleteCustomer = () => {
     isLoading: mutation.isPending,
   };
 };
-
-

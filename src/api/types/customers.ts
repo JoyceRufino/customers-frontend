@@ -4,13 +4,6 @@ export type Client = {
   companyValuation: number;
 };
 
-export type User = {
-  id: number;
-  name: string;
-  salary: number;
-  companyValuation: number;
-};
-
 export type ClientID = {
   id: number;
   name: string;
