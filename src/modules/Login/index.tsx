@@ -20,8 +20,8 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="bg-white w-full max-w-sm p-6 rounded shadow"
       >
-        <h1 className="text-xl font-bold mb-4">Acessar</h1>
-        <label className="block text-sm font-medium mb-1" htmlFor="name">
+        <h1 className="text-xl font-bold mb-4">Olá, seja bem-vindo!</h1>
+        <label className="block  mb-1" htmlFor="name">
           Digite seu nome
         </label>
         <input
@@ -30,7 +30,7 @@ const Login = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          placeholder="Seu nome"
+          placeholder="Digite seu nome"
         />
         <button
           type="submit"

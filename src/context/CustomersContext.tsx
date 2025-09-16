@@ -1,14 +1,11 @@
-// src/context/CustomersContext.tsx
 import type { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../api/services/customers";
 import type { GetUsersResponse } from "../api/types/customers";
 
-// Mantemos o provider apenas como um wrapper para permitir o uso existente em main.tsx
 export const CustomersProvider = ({ children }: { children: ReactNode }) => {
   return children;
 };
-
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useCustomers = ({
@@ -21,7 +18,7 @@ export const useCustomers = ({
   const { data, isLoading, isError, refetch } = useQuery<GetUsersResponse>({
     queryKey: ["customers", page, limit],
     queryFn: () => getUsers(page, limit),
-    placeholderData: (prev) => prev, // keepPreviousData
+    placeholderData: (prev) => prev,
   });
 
   return {

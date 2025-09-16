@@ -1,11 +1,12 @@
 import React from "react";
 import { Pencil, Plus, Trash, Check } from "lucide-react";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface CardCustomerProps {
   id: number;
   name: string;
   salary: number;
-  company: string;
+  company: number;
   onSelect?: (id: number) => void;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
@@ -27,10 +28,10 @@ export const CardCustomer: React.FC<CardCustomerProps> = ({
       <div className="mb-4">
         <h2 className="font-bold text-lg mb-2">{name}</h2>
         <p>
-          <strong>Salário:</strong> ${salary}
+          <strong>Salário:</strong> {formatCurrency(salary)}
         </p>
         <p>
-          <strong>Empresa:</strong> {company}
+          <strong>Empresa:</strong> {formatCurrency(company)}
         </p>
       </div>
 

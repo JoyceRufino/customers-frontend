@@ -91,7 +91,7 @@ const CustomersList = () => {
               id={user.id}
               name={user.name}
               salary={user.salary}
-              company={user.companyValuation.toString()}
+              company={user.companyValuation}
               selected={isSelected(user.id)}
               onSelect={handleSelect}
               onEdit={(id) => {
@@ -154,23 +154,20 @@ const CustomersList = () => {
             control={control}
             label="Salário"
             placeholder="Salário"
-            type="number"
+            currency
             rules={{
               required: "Salário é obrigatório",
-              validate: (v) =>
-                !Number.isNaN(Number(v)) || "Salário deve ser um número",
             }}
           />
+
           <InputField
             name="companyValuation"
             control={control}
             label="Empresa"
-            type="number"
+            placeholder="Valuation da empresa"
+            currency
             rules={{
               required: "Valuation da empresa é obrigatório",
-              validate: (v) =>
-                !Number.isNaN(Number(v)) ||
-                "Valuation da empresa deve ser um número",
             }}
           />
         </div>

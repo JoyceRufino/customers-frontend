@@ -20,13 +20,17 @@ export const useCreateCustomer = () => {
     },
     onError: (error: unknown) => {
       toast.error("Ocorreu um erro ao criar o cliente.");
-      // Tenta mapear erros do backend para os campos
+
       try {
         const err = error as {
           response?: { data?: { message?: string[] | string } };
         };
         const messages = err.response?.data?.message;
-        const arr = Array.isArray(messages) ? messages : messages ? [messages] : [];
+        const arr = Array.isArray(messages)
+          ? messages
+          : messages
+          ? [messages]
+          : [];
         arr.forEach((msg) => {
           const lower = String(msg).toLowerCase();
           if (lower.includes("salary")) {
@@ -49,7 +53,7 @@ export const useCreateCustomer = () => {
       salary: Number(data.salary),
       companyValuation: Number(data.companyValuation),
     };
-    // usar mutateAsync para deixar o controle do modal com o componente
+
     await mutation.mutateAsync(payload);
   };
 

@@ -1,10 +1,9 @@
-// src/components/Pagination.tsx
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationProps {
   currentPage: number;
-  totalPages: number; // A API retorna o número total de páginas
+  totalPages: number;
   onPageChange: (page: number) => void;
 }
 

@@ -10,6 +10,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
+  const storedUser = localStorage.getItem("customers_auth_user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
   return (
     <header className="flex items-center justify-between bg-white shadow p-5">
       <div className="flex gap-5 items-center">
@@ -24,7 +26,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         <img src={logo} alt="Logo" className="h-10" />
       </div>
 
-      {/* Navegação principal */}
       <nav className="hidden md:flex">
         <ul className="flex gap-8">
           {menuLinks
@@ -46,12 +47,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         </ul>
       </nav>
 
-      {/* Saudação do usuário */}
       <div className="flex items-center gap-2">
         <p className="hidden md:block text-lg">
-          Olá, <span className="font-bold">Usuário!</span>
+          Olá, <span className="font-bold">{user.name || "Usuário"}!</span>
         </p>
-        {/* Ícone no mobile */}
         <User className="h-6 w-6 text-gray-500 md:hidden" />
       </div>
     </header>
