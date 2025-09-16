@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export const useCreateCustomer = () => {
   const queryClient = useQueryClient();
-  const { control, handleSubmit, reset } = useForm<Client>();
+  const { control, handleSubmit, reset, setError } = useForm<Client>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mutation = useMutation({
@@ -18,18 +18,39 @@ export const useCreateCustomer = () => {
       reset();
       queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
-    onError: () => {
+    onError: (error: unknown) => {
       toast.error("Ocorreu um erro ao criar o cliente.");
+      // Tenta mapear erros do backend para os campos
+      try {
+        const err = error as {
+          response?: { data?: { message?: string[] | string } };
+        };
+        const messages = err.response?.data?.message;
+        const arr = Array.isArray(messages) ? messages : messages ? [messages] : [];
+        arr.forEach((msg) => {
+          const lower = String(msg).toLowerCase();
+          if (lower.includes("salary")) {
+            setError("salary", { type: "server", message: msg });
+          }
+          if (lower.includes("companyvaluation")) {
+            setError("companyValuation", { type: "server", message: msg });
+          }
+          if (lower.includes("name")) {
+            setError("name", { type: "server", message: msg });
+          }
+        });
+      } catch {}
     },
   });
 
-  const onSubmit = (data: Client) => {
+  const onSubmit = async (data: Client) => {
     const payload = {
       name: data.name,
       salary: Number(data.salary),
       companyValuation: Number(data.companyValuation),
     };
-    mutation.mutate(payload);
+    // usar mutateAsync para deixar o controle do modal com o componente
+    await mutation.mutateAsync(payload);
   };
 
   const closeModal = () => {

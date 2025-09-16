@@ -1,5 +1,5 @@
 import React from "react";
-import { Pencil, Plus, Trash } from "lucide-react";
+import { Pencil, Plus, Trash, Check } from "lucide-react";
 
 interface CardCustomerProps {
   id: number;
@@ -9,6 +9,7 @@ interface CardCustomerProps {
   onSelect?: (id: number) => void;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
+  selected?: boolean;
 }
 
 export const CardCustomer: React.FC<CardCustomerProps> = ({
@@ -19,6 +20,7 @@ export const CardCustomer: React.FC<CardCustomerProps> = ({
   onSelect,
   onEdit,
   onDelete,
+  selected = false,
 }) => {
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-md transition flex flex-col justify-between bg-white">
@@ -35,10 +37,10 @@ export const CardCustomer: React.FC<CardCustomerProps> = ({
       <div className="flex justify-end gap-3">
         <button
           onClick={() => onSelect?.(id)}
-          className="text-primary"
-          title="Selecionar"
+          className={selected ? "text-green-600" : "text-primary"}
+          title={selected ? "Selecionado" : "Selecionar"}
         >
-          <Plus size={20} />
+          {selected ? <Check size={20} /> : <Plus size={20} />}
         </button>
         <button
           onClick={() => onEdit?.(id)}

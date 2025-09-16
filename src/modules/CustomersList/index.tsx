@@ -8,26 +8,51 @@ import { Modal } from "../../components/ui/Modal";
 import { InputField } from "../../components/ui/Input";
 import { useCreateCustomer } from "../../hooks/useCreateCustomer";
 import { useCustomers } from "../../context/CustomersContext";
-import { type ClientID } from "../../api/types/customers";
-
-interface CustomersResponse {
-  clients: ClientID[];
-  totalPages: number;
-  currentPage: number;
-}
+import { useSelectedCustomers } from "../../context/SelectedCustomersContext";
+import { useEditCustomer } from "../../hooks/useEditCustomer";
+import { useDeleteCustomer } from "../../hooks/useDeleteCustomer";
 
 const CustomersList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(4);
 
   const { customers, isLoading, isError } = useCustomers({ page, limit });
+  const { isSelected, toggleSelect } = useSelectedCustomers();
 
   console.log("customers: ", customers);
 
   const { control, isModalOpen, onSubmit, openModal, closeModal } =
     useCreateCustomer();
 
-  const totalClients = customers?.clients.length || 0;
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const {
+    control: editControl,
+    isModalOpen: isEditOpen,
+    onSubmit: onEditSubmit,
+    openModal: openEditModal,
+    closeModal: closeEditModal,
+  } = useEditCustomer({ userId: editingId });
+
+  const { deleteCustomer } = useDeleteCustomer();
+
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const openDeleteModal = (id: number) => {
+    setDeleteId(id);
+    setIsDeleteOpen(true);
+  };
+  const closeDeleteModal = () => {
+    setIsDeleteOpen(false);
+    setDeleteId(null);
+  };
+
+  // const totalClients = customers?.clients.length || 0;
+
+  const handleSelect = (id: number) => {
+    const client = customers?.clients.find((c) => c.id === id);
+    if (!client) return;
+    toggleSelect(client);
+  };
 
   if (isLoading) {
     return <p className="p-4">Carregando clientes...</p>;
@@ -45,7 +70,7 @@ const CustomersList = () => {
     <div className="p-4">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <h1 className="text-xl font-bold">
-          Clientes encontrados (página {page}):
+          Clientes encontrados: {customers?.clients.length}
         </h1>
         <ItemsPerPageSelect
           value={limit}
@@ -67,9 +92,13 @@ const CustomersList = () => {
               name={user.name}
               salary={user.salary}
               company={user.companyValuation.toString()}
-              onSelect={(id) => console.log("Selecionado:", id)}
-              onEdit={(id) => console.log("Editar:", id)}
-              onDelete={(id) => console.log("Excluir:", id)}
+              selected={isSelected(user.id)}
+              onSelect={handleSelect}
+              onEdit={(id) => {
+                setEditingId(id);
+                openEditModal();
+              }}
+              onDelete={(id) => openDeleteModal(id)}
             />
           ))}
         </div>
@@ -88,6 +117,23 @@ const CustomersList = () => {
       />
 
       <Modal
+        isOpen={isDeleteOpen}
+        title="Confirmar exclusão"
+        description="Esta ação não pode ser desfeita."
+        onSubmit={async () => {
+          if (deleteId !== null) {
+            await deleteCustomer(deleteId);
+          }
+        }}
+        size="md"
+        onClose={closeDeleteModal}
+      >
+        <div className="text-sm text-gray-700">
+          Tem certeza que deseja excluir o cliente {deleteId ?? ""}?
+        </div>
+      </Modal>
+
+      <Modal
         isOpen={isModalOpen}
         title="Criar Cliente"
         description="Preencha os dados do cliente"
@@ -101,6 +147,7 @@ const CustomersList = () => {
             control={control}
             label="Nome"
             placeholder="Nome do cliente"
+            rules={{ required: "Nome é obrigatório" }}
           />
           <InputField
             name="salary"
@@ -108,12 +155,69 @@ const CustomersList = () => {
             label="Salário"
             placeholder="Salário"
             type="number"
+            rules={{
+              required: "Salário é obrigatório",
+              validate: (v) =>
+                !Number.isNaN(Number(v)) || "Salário deve ser um número",
+            }}
           />
           <InputField
             name="companyValuation"
             control={control}
             label="Empresa"
             type="number"
+            rules={{
+              required: "Valuation da empresa é obrigatório",
+              validate: (v) =>
+                !Number.isNaN(Number(v)) ||
+                "Valuation da empresa deve ser um número",
+            }}
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={isEditOpen}
+        title="Editar Cliente"
+        description="Atualize os dados do cliente"
+        onSubmit={onEditSubmit}
+        size="lg"
+        onClose={() => {
+          setEditingId(null);
+          closeEditModal();
+        }}
+      >
+        <div className="flex flex-col gap-4">
+          <InputField
+            name="name"
+            control={editControl}
+            label="Nome"
+            placeholder="Nome do cliente"
+            rules={{ required: "Nome é obrigatório" }}
+          />
+          <InputField
+            name="salary"
+            control={editControl}
+            label="Salário"
+            placeholder="Salário"
+            type="number"
+            rules={{
+              required: "Salário é obrigatório",
+              validate: (v) =>
+                !Number.isNaN(Number(v)) || "Salário deve ser um número",
+            }}
+          />
+          <InputField
+            name="companyValuation"
+            control={editControl}
+            label="Empresa"
+            type="number"
+            rules={{
+              required: "Valuation da empresa é obrigatório",
+              validate: (v) =>
+                !Number.isNaN(Number(v)) ||
+                "Valuation da empresa deve ser um número",
+            }}
           />
         </div>
       </Modal>

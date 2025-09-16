@@ -1,5 +1,10 @@
 import { Controller } from "react-hook-form";
-import type { Control, FieldValues, Path } from "react-hook-form";
+import type {
+  Control,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from "react-hook-form";
 
 interface InputFieldProps<T extends FieldValues> {
   name: Path<T>;
@@ -8,6 +13,7 @@ interface InputFieldProps<T extends FieldValues> {
   placeholder?: string;
   type?: string;
   className?: string;
+  rules?: RegisterOptions;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -17,6 +23,7 @@ export const InputField = <T extends FieldValues>({
   placeholder,
   type = "text",
   className = "",
+  rules,
 }: InputFieldProps<T>) => {
   return (
     <div className="flex flex-col space-y-1">
@@ -24,6 +31,7 @@ export const InputField = <T extends FieldValues>({
       <Controller
         name={name}
         control={control}
+        rules={rules}
         render={({ field, fieldState }) => (
           <>
             <input

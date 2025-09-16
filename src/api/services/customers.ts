@@ -20,3 +20,15 @@ export const getUserById = async (id: string) => {
   const { data } = await api.get(`/users/${id}`);
   return data;
 };
+
+/**Delete user */
+export const deleteUser = async (id: string) => {
+  const { data } = await api.delete(`/users/${id}`);
+  return data;
+};
+
+/**Edit user */
+export const editUser = async (id: string, user: Client) => {
+  const { data } = await api.patch(`/users/${id}`, user);
+  return data;
+};
