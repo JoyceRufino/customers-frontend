@@ -17,6 +17,7 @@ const CustomersList = () => {
   const [limit, setLimit] = useState(4);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteName, setDeleteName] = useState<string>("");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const { customers, isLoading, isError } = useCustomers({ page, limit });
@@ -33,15 +34,16 @@ const CustomersList = () => {
     closeModal: closeEditModal,
   } = useEditCustomer({ userId: editingId });
 
-  const openDeleteModal = (id: number) => {
+  const openDeleteModal = (id: number, name: string) => {
+    setDeleteName(name);
     setDeleteId(id);
     setIsDeleteOpen(true);
   };
   const closeDeleteModal = () => {
     setIsDeleteOpen(false);
     setDeleteId(null);
+    setDeleteName("");
   };
-
   const handleSelect = (id: number) => {
     const client = customers?.clients.find((c) => c.id === id);
     if (!client) return;
@@ -96,7 +98,7 @@ const CustomersList = () => {
                 setEditingId(id);
                 openEditModal();
               }}
-              onDelete={(id) => openDeleteModal(id)}
+              onDelete={() => openDeleteModal(user.id, user.name)}
             />
           ))}
         </div>
@@ -126,8 +128,9 @@ const CustomersList = () => {
         size="md"
         onClose={closeDeleteModal}
       >
-        <div className="text-sm text-gray-700">
-          Tem certeza que deseja excluir o cliente {deleteId ?? ""}?
+        <div className=" text-gray-700 mb-8">
+          Tem certeza que deseja excluir o cliente <strong>{deleteName}</strong>
+          ?
         </div>
       </Modal>
 
