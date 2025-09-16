@@ -72,9 +72,10 @@ export const Modal: React.FC<ModalProps> = ({
 
         <div className="flex justify-end gap-2">
           <Button
-            className="bg-gray-600 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+            className="bg-gray-600 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 text-white"
             onClick={onClose}
             disabled={loading}
+            variant="secondary"
           >
             {closeText}
           </Button>

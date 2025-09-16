@@ -1,44 +1,52 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useForm } from "react-hook-form";
+import { InputField } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
+
+type FormData = {
+  name: string;
+};
 
 const Login = () => {
-  const [name, setName] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+  });
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) return;
-    login(name.trim());
+  const onSubmit = (data: FormData) => {
+    login(data.name.trim());
     navigate("/customers", { replace: true });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white w-full max-w-sm p-6 rounded shadow"
       >
         <h1 className="text-xl font-bold mb-4">Olá, seja bem-vindo!</h1>
-        <label className="block  mb-1" htmlFor="name">
-          Digite seu nome
-        </label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        <InputField
+          name="name"
+          control={control}
+          label="Digite seu nome"
           placeholder="Digite seu nome"
+          rules={{ required: "O nome é obrigatório" }}
+          className="w-full mb-5"
         />
-        <button
+        <Button
           type="submit"
-          disabled={!name.trim()}
-          className="w-full py-2 rounded bg-primary text-white disabled:opacity-50"
+          variant="primary"
+          className="w-full mt-5"
+          disabled={!isValid}
         >
           Entrar
-        </button>
+        </Button>
       </form>
     </div>
   );
