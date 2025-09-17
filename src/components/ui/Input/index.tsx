@@ -14,7 +14,10 @@ interface InputFieldProps<T extends FieldValues> {
   placeholder?: string;
   type?: string;
   className?: string;
-  rules?: RegisterOptions<T, Path<T>>;
+  rules?: Omit<
+    RegisterOptions<T, Path<T>>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
   currency?: boolean;
 }
 
