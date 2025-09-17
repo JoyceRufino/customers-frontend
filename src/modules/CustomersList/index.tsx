@@ -67,7 +67,7 @@ const CustomersList = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 mb-9">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <h1 className="text-xl font-bold">
           Clientes encontrados: {customers?.clients.length}
@@ -104,17 +104,20 @@ const CustomersList = () => {
         </div>
       )}
 
-      <div className="w-full mb-5">
+      <div className="w-full mb-8">
         <Button onClick={openModal} variant="outline" className="w-full">
           Criar Cliente
         </Button>
       </div>
 
-      <Pagination
-        currentPage={page}
-        totalPages={customers?.totalPages || 0}
-        onPageChange={(newPage) => setPage(newPage)}
-      />
+      <div className="mb-5">
+        {" "}
+        <Pagination
+          currentPage={page}
+          totalPages={customers?.totalPages || 0}
+          onPageChange={(newPage) => setPage(newPage)}
+        />
+      </div>
 
       <Modal
         isOpen={isDeleteOpen}

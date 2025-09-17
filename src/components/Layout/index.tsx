@@ -18,7 +18,7 @@ const Layout: React.FC = () => {
       )}
       <div className="flex flex-col flex-1 relative z-10">
         <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="flex-1 p-4 overflow-y-auto mr-8 ml-8">
+        <main className="flex-1 lg:p-4 overflow-y-auto lg:mr-8 lg:ml-8">
           <Outlet />
         </main>
         <FooterMobile />

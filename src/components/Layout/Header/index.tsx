@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, User } from "lucide-react";
+import { CircleUser, Menu } from "lucide-react";
 import logo from "../../../assets/images/logo.png";
 import { Button } from "../../ui/Button";
 import { NavLink } from "react-router-dom";
@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         <p className="hidden md:block text-lg">
           Olá, <span className="font-bold">{user.name || "Usuário"}!</span>
         </p>
-        <User className="h-6 w-6 text-gray-500 md:hidden" />
+        <CircleUser className="h-6 w-6 text-gray-500 md:hidden" />
       </div>
     </header>
   );

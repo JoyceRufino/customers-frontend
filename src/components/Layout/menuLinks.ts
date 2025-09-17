@@ -1,4 +1,4 @@
-import { type LucideIcon, Home, User } from "lucide-react";
+import { type LucideIcon, Home, User, UserCheck } from "lucide-react";
 
 export interface MenuLink {
   label: string;
@@ -26,7 +26,7 @@ export const menuLinks: MenuLink[] = [
   {
     label: "Clientes Selecionados",
     path: "/customers-selected",
-    icon: User,
+    icon: UserCheck,
     showInHeader: true,
     showInFooter: true,
   },
