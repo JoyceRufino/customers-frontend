@@ -17,7 +17,7 @@ interface InputFieldProps<T extends FieldValues> {
   rules?: Omit<
     RegisterOptions<T, Path<T>>,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
-  >;
+  > & { deps?: Path<T> | Path<T>[] };
   currency?: boolean;
 }
 
